@@ -4,7 +4,6 @@ var ForecastHelpers = require('../utils/ForecastHelpers');
 var Loading = require('../components/Loading');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
-var Loading = require('../components/Loading');
 
 var styles = {
     container: {
@@ -35,6 +34,9 @@ var styles = {
 };
 
 var ForecastContainer = React.createClass({
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
     getInitialState: function() {
         return {
             location: this.props.routeParams.location,
@@ -45,11 +47,15 @@ var ForecastContainer = React.createClass({
     componentDidMount: function() {
         ForecastHelpers.getForecastData(this.state.location)
             .then(function(data) {
-                this.setState({
-                    location: this.props.routeParams.location,
-                    isLoading: false,
-                    data: data.data.list
-                })
+                if(data) {
+                    this.setState({
+                        location: this.props.routeParams.location,
+                        isLoading: false,
+                        data: data.data.list
+                    })
+                } else {
+                    this.context.router.push('/error/' + this.state.location);
+                }
             }.bind(this));
     },
     render: function() {

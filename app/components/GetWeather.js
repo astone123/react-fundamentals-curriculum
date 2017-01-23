@@ -1,7 +1,5 @@
 var React = require('react');
 var PropTypes = React.PropTypes;
-var ReactRouter = require('react-router');
-var Link = ReactRouter.Link;
 
 var styles = {
     form: {
@@ -27,7 +25,7 @@ function GetWeather(props) {
                        placeholder="St. George, Utah"
                        onChange={props.onUpdateLocation}
                        value={props.location}
-                        />
+                       required/>
                     <br/>
                     <div className="row">
                         <button style={styles.button} type="submit" className="btn btn-lg btn-success">Get Weather</button>
